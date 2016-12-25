@@ -1,0 +1,32 @@
+<ion-view view-title="Dashboard">
+    <ion-content class="padding">
+
+        <h2>Vandaag: {{ today }}</h2>
+
+        <div id = "dashboard">
+            <h3>Aantal gedronken Shots:</h3>
+            <p>{{ data.Shots.length }}</p>
+
+            <ion-scroll id = "ingredients" zooming = "false" direction = "y" style = "height: 50vh;">
+                <h3>Ingredienten: (in gram)</h3>
+                <ul>
+                    <li ng-repeat = "i in data.Ingredients track by $index">{{ i.Ingredient.Name }} 
+                        <p style = "background-color: red" ng-style = "{ width: 75 + data.Ingredients[$index].Ingredient.Amount_g + 'px'}">{{ data.Ingredients[$index].Ingredient.Amount_g }}</p>
+                    </li>
+                </ul>
+            </ion-scroll>
+
+            <ion-scroll id = "nutrients" zooming = "false" direction = "y" style = "height: 50vh; display: none;">
+                <h3>Voedingsstoffen: (in milligram)</h3>
+                <ul>
+                    <li ng-repeat = "i in data.Nutrients track by $index">{{ i.Nutrient.Name }} 
+                        <p style = "background-color: red" ng-style = "{ width: 75 + (data.Nutrients[$index].Nutrient.Amount_g * 1000) + 'px'}">{{ data.Nutrients[$index].Nutrient.Amount_g * 1000 | number: 4 }}</p>
+                    </li>
+                </ul>
+            </ion-scroll>
+            <button ng-click = "showIngredients ()">Ingredienten</button>
+            <button ng-click = "showNutrients ()">Voedingsstoffen</button>
+        </div>
+
+    </ion-content>
+</ion-view>
