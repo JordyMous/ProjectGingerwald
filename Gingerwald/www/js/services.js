@@ -68,7 +68,7 @@ angular.module('starter.services', [])
 			lastDay.setMonth (today.getMonth ());
 			lastDay.setDate (today.getDate () + 7 - today.getDay ());
 
-			return [this.formatDate (firstDay), this.formatDate (lastDay)];
+			return [firstDay, lastDay];
 		},
 
 		getMonthDates : function (today) {
@@ -83,7 +83,27 @@ angular.module('starter.services', [])
 			lastDay.setMonth (today.getMonth () + 1); //+1 because day 0 returns the last day of the previous month
 			lastDay.setDate (0);
 
-			return [this.formatDate (firstDay), this.formatDate (lastDay)];
-		}
+			return [firstDay, lastDay];
+		},
+
+		nextWeek : function (date) {
+			date.setDate (date.getDate () + 7);
+			return date;
+		},
+
+		previousWeek : function (date) {
+			date.setDate (date.getDate () - 7);
+			return date;
+		},
+
+		nextMonth : function (date) {
+			date.setMonth (date.getMonth () + 1);
+			return date;
+		},
+
+		previousMonth : function (date) {
+			date.setMonth (date.getMonth () - 1);
+			return date;
+		},
 	}
 });

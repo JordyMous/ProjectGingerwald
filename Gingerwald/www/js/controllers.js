@@ -65,7 +65,31 @@ angular.module('starter.controllers', [])
 
 	$scope.bottleToken = "f0uNmGdduGPsqo";
 
-	$scope.addShot = function () {
+	/**/$scope.nextWeek = function () {
+		$scope.dateFrom = DateService.nextWeek ($scope.dateFrom);
+		$scope.dateTo = DateService.nextWeek ($scope.dateTo);
+		$scope.getuserDashboard ();
+	};
+
+	/**/$scope.previousWeek = function () {
+		$scope.dateFrom = DateService.previousWeek ($scope.dateFrom);
+		$scope.dateTo = DateService.previousWeek ($scope.dateTo);
+		$scope.getuserDashboard ();
+	};
+
+	/**/$scope.nextMonth = function () {
+		$scope.dateFrom = DateService.nextMonth ($scope.dateFrom);
+		$scope.dateTo = DateService.nextMonth ($scope.dateTo);
+		$scope.getuserDashboard ();
+	};
+
+	/**/$scope.previousMonth = function () {
+		$scope.dateFrom = DateService.previousMonth ($scope.dateFrom);
+		$scope.dateTo = DateService.previousMonth ($scope.dateTo);
+		$scope.getuserDashboard ();
+	};
+
+	/**/$scope.addShot = function () {
 		$scope.test = DashboardService.addShot ($scope.token, $scope.bottleToken);
 
 		$scope.test.then (function (data) {
@@ -75,7 +99,7 @@ angular.module('starter.controllers', [])
 	};
 
 	$scope.getuserDashboard = function () {
-		$scope.dashboard = DashboardService.getDashboard ($scope.token, $scope.dateFrom, $scope.dateTo);
+		$scope.dashboard = DashboardService.getDashboard ($scope.token, DateService.formatDate ($scope.dateFrom), DateService.formatDate ($scope.dateTo));
 
 		$scope.dashboard.then (function (data) {
 			$scope.data = data;

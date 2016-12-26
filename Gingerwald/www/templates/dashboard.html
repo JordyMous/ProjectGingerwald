@@ -1,11 +1,18 @@
 <ion-view view-title="Dashboard">
     <ion-content class="padding">
 
-        <h2>Vandaag: {{ today }}</h2>
+        <h2>firstDate: {{ dateFrom }}</h2>
+        <h2>lastDate: {{ dateTo }}</h2>
 
         <div id = "dashboard">
             <h3>Aantal gedronken Shots:</h3>
             <p>{{ data.Shots.length }}</p>
+
+            <button ng-click = "nextWeek ()">Next Week</button>
+            <button ng-click = "previousWeek ()">Previous Week</button>
+            <br>
+            <button ng-click = "nextMonth ()">Next Month</button>
+            <button ng-click = "previousMonth ()">Previous Month</button>
 
             <ion-scroll id = "ingredients" zooming = "false" direction = "y" style = "height: 50vh;">
                 <h3>Ingredienten: (in gram)</h3>
