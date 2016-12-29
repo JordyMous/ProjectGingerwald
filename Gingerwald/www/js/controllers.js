@@ -2,13 +2,6 @@ angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
-  	// With the new view caching in Ionic, Controllers are only called
-  	// when they are recreated or on app start, instead of every page change.
-	// To listen for when this page is active (for example, to refresh data),
-	// listen for the $ionicView.enter event:
-	//$scope.$on('$ionicView.enter', function(e) {
-	//});
-
 	// Form data for the login modal
 	$scope.loginData = {};
 
@@ -41,14 +34,18 @@ angular.module('starter.controllers', [])
 	};
 })
 
-.controller ("DashboardCtrl", ['$scope', 'DashboardService', 'DateService', function ($scope, DashboardService, DateService) {
+.controller ("DashboardCtrl", function ($scope, $filter, DashboardService, DateService) {
 	
 	//DEZE TOKEN KRIJG JE PAS TIJENS HET INLOGGEN, AANGEZIEN HET INLOGGEN NIET WERKT NAAR BEHOREN STAAT DEZE TIJDELIJK HIER OPGESLAGEN
 	$scope.token = "VRYsLhjqom93MPPPcfeaWwmb8S3hwS7rImoqS3OOVthP4BFApUPT1wIsW2UmSiFO";
+
 	$scope.data = "";
-	/**/$scope.response = "";
+	$scope.response = "";
 
 	$scope.DOM = {
+		allTime: document.getElementById ("allTime"),
+		perWeek: document.getElementById ("perWeek"),
+		perMonth: document.getElementById ("perMonth"),
 		ingredients: document.getElementById ("ingredients"),
 		nutrients: document.getElementById ("nutrients")
 	};
@@ -59,52 +56,59 @@ angular.module('starter.controllers', [])
 	$scope.firstDayMonth = DateService.getMonthDates ($scope.today)[0];
 	$scope.lastDayMonth = DateService.getMonthDates ($scope.today)[1];
 
-	$scope.dateFrom = $scope.firstDayMonth;
-	$scope.dateTo = $scope.lastDayMonth;
-
-
-	$scope.bottleToken = "f0uNmGdduGPsqo";
-
-	/**/$scope.nextWeek = function () {
-		$scope.dateFrom = DateService.nextWeek ($scope.dateFrom);
-		$scope.dateTo = DateService.nextWeek ($scope.dateTo);
-		$scope.getuserDashboard ();
-	};
-
-	/**/$scope.previousWeek = function () {
-		$scope.dateFrom = DateService.previousWeek ($scope.dateFrom);
-		$scope.dateTo = DateService.previousWeek ($scope.dateTo);
-		$scope.getuserDashboard ();
-	};
-
-	/**/$scope.nextMonth = function () {
-		$scope.dateFrom = DateService.nextMonth ($scope.dateFrom);
-		$scope.dateTo = DateService.nextMonth ($scope.dateTo);
-		$scope.getuserDashboard ();
-	};
-
-	/**/$scope.previousMonth = function () {
-		$scope.dateFrom = DateService.previousMonth ($scope.dateFrom);
-		$scope.dateTo = DateService.previousMonth ($scope.dateTo);
-		$scope.getuserDashboard ();
-	};
-
-	/**/$scope.addShot = function () {
-		$scope.test = DashboardService.addShot ($scope.token, $scope.bottleToken);
-
-		$scope.test.then (function (data) {
-			$scope.response = data;
-			console.log ($scope.response);
-		});
-	};
-
-	$scope.getuserDashboard = function () {
-		$scope.dashboard = DashboardService.getDashboard ($scope.token, DateService.formatDate ($scope.dateFrom), DateService.formatDate ($scope.dateTo));
+	$scope.getuserDashboard = function (dateFrom, dateTo) {
+		$scope.dashboard = DashboardService.getDashboard ($scope.token, dateFrom, dateTo);
 
 		$scope.dashboard.then (function (data) {
 			$scope.data = data;
-			console.log ($scope.data.Shots);
+			console.log (data);
 		});
+	};
+
+	$scope.addWeek = function () {
+		$scope.firstDayWeek = DateService.addWeek ($scope.firstDayWeek);
+		$scope.lastDayWeek = DateService.addWeek ($scope.lastDayWeek);
+		$scope.getuserDashboard (DateService.formatDate ($scope.firstDayWeek), DateService.formatDate ($scope.lastDayWeek));
+	};
+
+	$scope.subtractWeek = function () {
+		$scope.firstDayWeek = DateService.subtractWeek ($scope.firstDayWeek);
+		$scope.lastDayWeek = DateService.subtractWeek ($scope.lastDayWeek);
+		$scope.getuserDashboard (DateService.formatDate ($scope.firstDayWeek), DateService.formatDate ($scope.lastDayWeek));
+	};
+
+	$scope.addMonth = function () {
+		$scope.firstDayMonth = DateService.addMonth ($scope.firstDayMonth);
+		$scope.lastDayMonth = DateService.addMonth ($scope.lastDayMonth);
+		$scope.getuserDashboard (DateService.formatDate ($scope.firstDayMonth), DateService.formatDate ($scope.lastDayMonth));
+	};
+
+	$scope.subtractMonth = function () {
+		$scope.firstDayMonth = DateService.subtractMonth ($scope.firstDayMonth);
+		$scope.lastDayMonth = DateService.subtractMonth ($scope.lastDayMonth);
+		$scope.getuserDashboard (DateService.formatDate ($scope.firstDayMonth), DateService.formatDate ($scope.lastDayMonth));
+	};
+
+	//Onderstaande functies zijn tijdelijk, ik zal waarschijnlijk niet op die manier met de DOM werken
+	$scope.showAllTimeData = function () {
+		$scope.DOM.allTime.style.display = "block";
+		$scope.DOM.perWeek.style.display = "none";
+		$scope.DOM.perMonth.style.display = "none";
+		$scope.getuserDashboard	("", "");
+	};
+
+	$scope.showWeekData = function	() {
+		$scope.DOM.allTime.style.display = "none";
+		$scope.DOM.perWeek.style.display = "block";
+		$scope.DOM.perMonth.style.display = "none";
+		$scope.getuserDashboard (DateService.formatDate ($scope.firstDayWeek), DateService.formatDate ($scope.lastDayWeek));
+	};
+
+	$scope.showMonthData = function	() {
+		$scope.DOM.allTime.style.display = "none";
+		$scope.DOM.perWeek.style.display = "none";
+		$scope.DOM.perMonth.style.display = "block";
+		$scope.getuserDashboard (DateService.formatDate ($scope.firstDayMonth), DateService.formatDate ($scope.lastDayMonth));
 	};
 
 	$scope.showIngredients = function () {
@@ -120,6 +124,29 @@ angular.module('starter.controllers', [])
 		$scope.DOM.ingredients.style.display = "none";
 	};
 
-	$scope.getuserDashboard ();
-	//$scope.addShot ();
-}])
+	$scope.showAllTimeData ();
+})
+
+.controller ("ScannerCtrl", function ($scope, $cordovaBarcodeScanner, DashboardService) {
+
+	$scope.token = "VRYsLhjqom93MPPPcfeaWwmb8S3hwS7rImoqS3OOVthP4BFApUPT1wIsW2UmSiFO";
+	$scope.bottleToken = "Bottletoken here";
+
+	$scope.scanBarcode = function () {
+		$cordovaBarcodeScanner.scan ().then (function (imageData) {
+			alert (imageData.text);
+			$scope.bottleToken = imageData.text.substr (27, 40);
+			alert ($scope.bottleToken);
+		}, function (error) {
+			console.log ("An error happened: " + error);
+		});
+	};
+
+	$scope.addShot = function () {
+		$scope.test = DashboardService.addShot ($scope.token, $scope.bottleToken);
+
+		$scope.test.then (function (data) {
+			alert (data);
+		});
+	};
+})

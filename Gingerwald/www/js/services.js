@@ -28,6 +28,7 @@ angular.module('starter.services', [])
 			var url = 'https://www.gingerwald.com/community/v2.1/api/addBottleToDashboard.php?token=' + token + '&bottle_token=' + bottleToken;
       		
 			/**/console.log (url);
+			alert (url);
 
       		$http({
       			method: 'POST',
@@ -56,53 +57,67 @@ angular.module('starter.services', [])
 			return [year, month, day].join ('-');
 		},
 
-		getWeekDates : function (today) {
+		getWeekDates : function (date) {
 			var firstDay = new Date ();
 			var lastDay = new Date ();
 
-			firstDay.setFullYear (today.getFullYear ());
-			firstDay.setMonth (today.getMonth ());
-			firstDay.setDate (today.getDate () - today.getDay () + 1);
+			firstDay.setFullYear (date.getFullYear ());
+			firstDay.setMonth (date.getMonth ());
+			firstDay.setDate (date.getDate () - date.getDay () + 1);
 
-			lastDay.setFullYear (today.getFullYear ());
-			lastDay.setMonth (today.getMonth ());
-			lastDay.setDate (today.getDate () + 7 - today.getDay ());
+			lastDay.setFullYear (date.getFullYear ());
+			lastDay.setMonth (date.getMonth ());
+			lastDay.setDate (date.getDate () + 7 - date.getDay ());
 
 			return [firstDay, lastDay];
 		},
 
-		getMonthDates : function (today) {
+		getMonthDates : function (date) {
 			var firstDay = new Date ();
 			var lastDay = new Date ();
 
-			firstDay.setFullYear (today.getFullYear ());
-			firstDay.setMonth (today.getMonth ());
+			firstDay.setFullYear (date.getFullYear ());
+			firstDay.setMonth (date.getMonth ());
 			firstDay.setDate (1);
 
-			lastDay.setFullYear (today.getFullYear ());
-			lastDay.setMonth (today.getMonth () + 1); //+1 because day 0 returns the last day of the previous month
+			lastDay.setFullYear (date.getFullYear ());
+			lastDay.setMonth (date.getMonth () + 1); //+1 because day 0 returns the last day of the previous month
 			lastDay.setDate (0);
 
 			return [firstDay, lastDay];
 		},
 
-		nextWeek : function (date) {
+		addWeek : function (date) {
 			date.setDate (date.getDate () + 7);
+
 			return date;
 		},
 
-		previousWeek : function (date) {
+		subtractWeek : function (date) {
 			date.setDate (date.getDate () - 7);
+
 			return date;
 		},
 
-		nextMonth : function (date) {
-			date.setMonth (date.getMonth () + 1);
+		addMonth : function (date) {
+			if (date.getDate () == 1) {
+				date.setMonth (date.getMonth () + 1);
+			} else {
+				date.setDate (1);
+				date.setMonth (date.getMonth () + 2);
+				date.setDate (0)
+			}
+
 			return date;
 		},
 
-		previousMonth : function (date) {
-			date.setMonth (date.getMonth () - 1);
+		subtractMonth : function (date) {
+			if (date.getDate () == 1) {
+				date.setMonth (date.getMonth () - 1);
+			} else {
+				date.setDate (0);
+			}
+
 			return date;
 		},
 	}
