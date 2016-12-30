@@ -7,7 +7,13 @@ angular.module('starter.controllers', [])
 
 	// Open the login modal
 	$scope.login = function() {
-		//
+		$scope.sendLogin = UserService.logIn ($scope.loginData.username, $scope.loginData.password);
+
+		$scope.sendLogin.then (function (data) {
+			UserService.setToken (data);
+		}, function (reason) {
+			alert (reason);
+		});
 	};
 })
 

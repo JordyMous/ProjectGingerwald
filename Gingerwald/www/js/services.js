@@ -5,8 +5,29 @@ angular.module('starter.services', [])
 	var userToken = "VRYsLhjqom93MPPPcfeaWwmb8S3hwS7rImoqS3OOVthP4BFApUPT1wIsW2UmSiFO";
 
 	return {
-		logIn : function () {
-			return 0;
+		logIn : function (username, password) {
+			var clientId = "GingerwaldUserApp13";
+			var clientSecret = "nO7mudLAY6w2CnNWEv0RNVjsRqfnsh8NYdc4Jpj3Z0PPTvbG1SGihD7w8YedIPtV";
+
+			var deferred = $q.defer ();
+			var url = 'https://www.gingerwald.com/community/v2.1/authorization/oauth/token.php?grant_type=password&username='
+						+ username + '&password=' + password + '&client_id=' + clientId + '&client_secret=' + clientSecret;
+			$http({
+      			method: 'POST',
+        		url: url
+        	})
+      		.success (function (data, status, headers, config) {
+        		deferred.resolve (data);
+		    })
+		    .error (function (data, status, headers, config) {
+		    	deferred.reject (status);
+		    });
+
+		    return deferred.promise;
+		},
+
+		setToken : function (token) {
+			userToken = token;
 		},
 
 		getToken : function () {
