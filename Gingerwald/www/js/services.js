@@ -1,5 +1,20 @@
 angular.module('starter.services', [])
 
+.service ('UserService', function ($http, $q) {
+
+	var userToken = "VRYsLhjqom93MPPPcfeaWwmb8S3hwS7rImoqS3OOVthP4BFApUPT1wIsW2UmSiFO";
+
+	return {
+		logIn : function () {
+			return 0;
+		},
+
+		getToken : function () {
+			return userToken;
+		},
+	}
+})
+
 .service ('ScannerService', function($http, $q) {
 
 	return {
@@ -21,7 +36,7 @@ angular.module('starter.services', [])
 		    });
 
 			return deferred.promise;
-		}
+		},
 	}
 })
 
