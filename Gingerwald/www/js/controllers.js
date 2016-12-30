@@ -131,7 +131,7 @@ angular.module('starter.controllers', [])
 .controller ("ScannerCtrl", function ($scope, $cordovaBarcodeScanner, ScannerService) {
 
 	$scope.token = "VRYsLhjqom93MPPPcfeaWwmb8S3hwS7rImoqS3OOVthP4BFApUPT1wIsW2UmSiFO";
-	$scope.bottleToken = "Bottletoken here";
+	$scope.bottleToken = "";
 
 	$scope.scanBarcode = function () {
 		$cordovaBarcodeScanner.scan ().then (function (imageData) {
