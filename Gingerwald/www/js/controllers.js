@@ -145,9 +145,9 @@ angular.module('starter.controllers', [])
 		$scope.scanner = ScannerService.addShot ($scope.token, $scope.bottleToken);
 
 		$scope.scanner.then (function (data) {
-			alert (data);
+			$scope.bottleToken = "Shot toegevoegd!";
 		}, function (reason) {
-			alert (reason);
+			$scope.bottleToken = "Shot bestaat al! (" + reason + ")";
 		});
 	};
 })
