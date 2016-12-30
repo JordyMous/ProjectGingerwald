@@ -7,21 +7,19 @@
             <button ng-click = "showMonthData ()">Per Maand</button>
 
             <div id = "allTime">
-                <button><</button>
                 Totaal
-                <button>></button>
             </div>
 
             <div id = "perWeek" style = "display: none;">
-                <button ng-click = "subtractWeek ()"><</button>
+                <span ng-click = "subtractWeek ()">&#8656;</span>
                 {{ firstDayWeek | date: 'dd/MM' }} - {{ lastDayWeek | date: 'dd/MM' }}
-                <button ng-click = "addWeek ()">></button>
+                <span ng-click = "addWeek ()">&#8658;</span>
             </div>
 
             <div id = "perMonth" style = "display: none;">
-                <button ng-click = "subtractMonth ()"><</button>
+                <span ng-click = "subtractMonth ()">&#8656;</span>
                 {{ firstDayMonth | date: 'dd/MM' }} - {{ lastDayMonth | date: 'dd/MM' }}
-                <button ng-click = "addMonth ()">></button>
+                <span ng-click = "addMonth ()">&#8658;</span>
             </div>
 
             <h3>Aantal gedronken Shots:</h3>

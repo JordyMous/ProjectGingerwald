@@ -1,34 +1,13 @@
 angular.module('starter.services', [])
 
-.service ('DashboardService', function($http, $q) {
+.service ('ScannerService', function($http, $q) {
 
 	return {
-		getDashboard : function (token, dateFrom, dateTo) {
-			var deferred = $q.defer ();
-			var url = 'https://www.gingerwald.com/community/v2.1/api/getUserDashboard.php?token=' + token + '&report_from=' + dateFrom + '&report_to=' + dateTo;
-      		
-			/**/console.log (url);
-
-      		$http({
-      			method: 'GET',
-        		url: url
-        	})
-      		.success (function (data, status, headers, config) {
-        		deferred.resolve (data);
-		    })
-		    .error (function (data, status, headers, config) {
-		    	deferred.reject (status);
-		    });
-
-			return deferred.promise;
-		},
-
 		addShot : function (token, bottleToken) {
 			var deferred = $q.defer ();
 			var url = 'https://www.gingerwald.com/community/v2.1/api/addBottleToDashboard.php?token=' + token + '&bottle_token=' + bottleToken;
       		
-			/**/console.log (url);
-			alert (url);
+			/**/console.log ("Adding shot with bottle token " + bottleToken + ".");
 
       		$http({
       			method: 'POST',
@@ -43,6 +22,31 @@ angular.module('starter.services', [])
 
 			return deferred.promise;
 		}
+	}
+})
+
+.service ('DashboardService', function($http, $q) {
+
+	return {
+		getDashboard : function (token, dateFrom, dateTo) {
+			var deferred = $q.defer ();
+			var url = 'https://www.gingerwald.com/community/v2.1/api/getUserDashboard.php?token=' + token + '&report_from=' + dateFrom + '&report_to=' + dateTo;
+      		
+			/**/console.log ("Getting data from " + dateFrom + " to " + dateTo + ".");
+
+      		$http({
+      			method: 'GET',
+        		url: url
+        	})
+      		.success (function (data, status, headers, config) {
+        		deferred.resolve (data);
+		    })
+		    .error (function (data, status, headers, config) {
+		    	deferred.reject (status);
+		    });
+
+			return deferred.promise;
+		},
 	}
 })
 

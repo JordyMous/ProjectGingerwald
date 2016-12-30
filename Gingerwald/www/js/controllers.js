@@ -61,7 +61,8 @@ angular.module('starter.controllers', [])
 
 		$scope.dashboard.then (function (data) {
 			$scope.data = data;
-			console.log (data);
+		}, function (reason) {
+			alert (reason);
 		});
 	};
 
@@ -127,26 +128,26 @@ angular.module('starter.controllers', [])
 	$scope.showAllTimeData ();
 })
 
-.controller ("ScannerCtrl", function ($scope, $cordovaBarcodeScanner, DashboardService) {
+.controller ("ScannerCtrl", function ($scope, $cordovaBarcodeScanner, ScannerService) {
 
 	$scope.token = "VRYsLhjqom93MPPPcfeaWwmb8S3hwS7rImoqS3OOVthP4BFApUPT1wIsW2UmSiFO";
 	$scope.bottleToken = "Bottletoken here";
 
 	$scope.scanBarcode = function () {
 		$cordovaBarcodeScanner.scan ().then (function (imageData) {
-			alert (imageData.text);
 			$scope.bottleToken = imageData.text.substr (27, 40);
-			alert ($scope.bottleToken);
 		}, function (error) {
-			console.log ("An error happened: " + error);
+			alert ("An error happened: " + error);
 		});
 	};
 
 	$scope.addShot = function () {
-		$scope.test = DashboardService.addShot ($scope.token, $scope.bottleToken);
+		$scope.scanner = ScannerService.addShot ($scope.token, $scope.bottleToken);
 
-		$scope.test.then (function (data) {
+		$scope.scanner.then (function (data) {
 			alert (data);
+		}, function (reason) {
+			alert (reason);
 		});
 	};
 })
