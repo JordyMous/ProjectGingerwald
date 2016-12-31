@@ -20,7 +20,6 @@ angular.module('starter.controllers', [])
 .controller ("DashboardCtrl", function ($scope, $filter, UserService, DashboardService, DateService) {
 	
 	$scope.token = UserService.getToken ();
-	$scope.data = "";
 
 	$scope.DOM = {
 		allTime: document.getElementById ("allTime"),
@@ -111,7 +110,7 @@ angular.module('starter.controllers', [])
 .controller ("ScannerCtrl", function ($scope, $cordovaBarcodeScanner, UserService, ScannerService) {
 
 	$scope.token = UserService.getToken ();
-	$scope.bottleToken = "";
+
 	$scope.DOM = {
 		addButton: document.getElementById ("addButton"),
 		cancelButton: document.getElementById ("cancelButon")
@@ -122,6 +121,15 @@ angular.module('starter.controllers', [])
 			$scope.bottleToken = imageData.text.substr (27, 40);
 			addButton.disabled = false;
 			cancelButton.disabled = false;
+
+			$scope.bottleDetails = ScannerService.getBottleId ($scope.token, $scope.bottleToken);
+
+			$scope.bottleDetails.then (function (data) {
+				$scope.juiceId = data.Bottle.JuiceID;
+			}, function (reason) {
+				$scope.bottleToken = "Ongeldige code!";
+			});
+
 		}, function (error) {
 			alert ("An error happened: " + error);
 		});
@@ -136,12 +144,13 @@ angular.module('starter.controllers', [])
 			$scope.bottleToken = "Shot bestaat al! (" + reason + ")";
 		});
 
-		$scope.bottleToken = "";
+		$scope.juiceId = "";
 		addButton.disabled = true;
 		cancelButton.disabled = true;
 	};
 
 	$scope.cancelShot = function () {
+		$scope.juiceId = "";
 		$scope.bottleToken = "";
 		addButton.disabled = true;
 		cancelButton.disabled = true;

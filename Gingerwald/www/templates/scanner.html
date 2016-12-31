@@ -3,10 +3,14 @@
     	
     	<button ng-click = "scanBarcode ()">Scan</button><br><br>
 
-    	<p>Bottle: {{ bottleToken }}</p><br>
+    	<p>Bottle Token: {{ bottleToken }} | Juice Id: {{ juiceId }}</p><br>
+
+    	<button ng-click = "testJuicdeDetails ()">Test</button>
 
 		<button id = "addButton" ng-click = "addShot ()" disabled>Add Shot</button><br>
     	<button id = "cancelButton" ng-click = "cancelShot ()" disabled>Cancel</button>
+
+    	{{ picture }}
 		
     </ion-content>
 </ion-view>

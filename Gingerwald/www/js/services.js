@@ -58,6 +58,26 @@ angular.module('starter.services', [])
 
 			return deferred.promise;
 		},
+
+		getBottleId : function (token, bottleToken) {
+			var deferred = $q.defer ();
+			var url = 'https://www.gingerwald.com/community/v2.1/api/getBottleDetails.php?token=' + token + '&bottle_token=' + bottleToken;
+      		
+			/**/console.log ("Getting juicedata from juice with token " + bottleToken + ".");
+
+      		$http({
+      			method: 'GET',
+        		url: url
+        	})
+      		.success (function (data, status, headers, config) {
+        		deferred.resolve (data);
+		    })
+		    .error (function (data, status, headers, config) {
+		    	deferred.reject (status);
+		    });
+
+			return deferred.promise;
+		},
 	}
 })
 
