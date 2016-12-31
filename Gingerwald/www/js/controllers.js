@@ -112,10 +112,16 @@ angular.module('starter.controllers', [])
 
 	$scope.token = UserService.getToken ();
 	$scope.bottleToken = "";
+	$scope.DOM = {
+		addButton: document.getElementById ("addButton"),
+		cancelButton: document.getElementById ("cancelButon")
+	};
 
 	$scope.scanBarcode = function () {
 		$cordovaBarcodeScanner.scan ().then (function (imageData) {
 			$scope.bottleToken = imageData.text.substr (27, 40);
+			addButton.disabled = false;
+			cancelButton.disabled = false;
 		}, function (error) {
 			alert ("An error happened: " + error);
 		});
@@ -129,5 +135,15 @@ angular.module('starter.controllers', [])
 		}, function (reason) {
 			$scope.bottleToken = "Shot bestaat al! (" + reason + ")";
 		});
+
+		$scope.bottleToken = "";
+		addButton.disabled = true;
+		cancelButton.disabled = true;
+	};
+
+	$scope.cancelShot = function () {
+		$scope.bottleToken = "";
+		addButton.disabled = true;
+		cancelButton.disabled = true;
 	};
 })

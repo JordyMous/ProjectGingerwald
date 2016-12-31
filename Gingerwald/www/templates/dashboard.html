@@ -2,12 +2,12 @@
     <ion-content class="padding">
 
         <div id = "dashboard" style = "border: 1px solid blue">
-            <button ng-click = "showAllTimeData ()">Altijd</button>
-            <button ng-click = "showWeekData ()">Per week</button>
-            <button ng-click = "showMonthData ()">Per Maand</button>
+            <button ng-click = "showAllTimeData ()">Ever</button>
+            <button ng-click = "showWeekData ()">Week</button>
+            <button ng-click = "showMonthData ()">Month</button>
 
             <div id = "allTime">
-                Totaal
+                Ever
             </div>
 
             <div id = "perWeek" style = "display: none;">
@@ -22,11 +22,11 @@
                 <span ng-click = "addMonth ()">&#8658;</span>
             </div>
 
-            <h3>Aantal gedronken Shots:</h3>
+            <h3>Consumed shots:</h3>
             <p>{{ data.Shots.length }}</p>
 
             <ion-scroll id = "ingredients" zooming = "false" direction = "y" style = "height: 40vh;">
-                <h3>Ingredienten: (in gram)</h3>
+                <h3>Ingredients: (g)</h3>
                 <ul>
                     <li ng-repeat = "i in data.Ingredients track by $index">{{ i.Ingredient.Name }} 
                         <p style = "background-color: red" ng-style = "{ width: 75 + data.Ingredients[$index].Ingredient.Amount_g + 'px'}">{{ data.Ingredients[$index].Ingredient.Amount_g }}</p>
@@ -35,15 +35,15 @@
             </ion-scroll>
 
             <ion-scroll id = "nutrients" zooming = "false" direction = "y" style = "height: 40vh; display: none;">
-                <h3>Voedingsstoffen: (in milligram)</h3>
+                <h3>Nutrients: (mg)</h3>
                 <ul>
                     <li ng-repeat = "i in data.Nutrients track by $index">{{ i.Nutrient.Name }} 
                         <p style = "background-color: red" ng-style = "{ width: 75 + (data.Nutrients[$index].Nutrient.Amount_g * 1000) + 'px'}">{{ data.Nutrients[$index].Nutrient.Amount_g * 1000 | number: 4 }}</p>
                     </li>
                 </ul>
             </ion-scroll>
-            <button ng-click = "showIngredients ()">Ingredienten</button>
-            <button ng-click = "showNutrients ()">Voedingsstoffen</button>
+            <button ng-click = "showIngredients ()">Ingredients</button>
+            <button ng-click = "showNutrients ()">Nutrients</button>
         </div>
 
     </ion-content>
